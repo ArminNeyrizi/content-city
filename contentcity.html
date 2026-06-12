@@ -1,606 +1,1614 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Content City — Build. Not Learn.</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Figtree:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Syne+Mono&display=swap" rel="stylesheet"/>
-<style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --ink:#2A231F;
-  --cobalt:#00478F;
-  --blaze:#FF5D00;
-  --fog:#D8E1E7;
-  --void:#161110;
-  --mid:#3D332D;
-  --smoke:#574840;
-  --text-hi:#F2EDE8;
-  --text-lo:#8A7D75;
-}
-html{scroll-behavior:smooth}
-body{font-family:'Figtree',sans-serif;background:var(--ink);color:var(--text-hi);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Content City — Build. Not Learn.</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Figtree:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Syne+Mono&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
 
-/* ─── NOISE OVERLAY ─── */
-body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");pointer-events:none;z-index:999;opacity:.5}
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      :root {
+        --ink: #2a231f;
+        --cobalt: #00478f;
+        --blaze: #ff5d00;
+        --fog: #d8e1e7;
+        --void: #161110;
+        --mid: #3d332d;
+        --smoke: #574840;
+        --text-hi: #f2ede8;
+        --text-lo: #8a7d75;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: "Figtree", sans-serif;
+        background: var(--ink);
+        color: var(--text-hi);
+        overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
+      }
 
-/* ─── NAV ─── */
-nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:1.1rem 2.5rem;background:rgba(22,17,16,.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(216,225,231,.07)}
-.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.15rem;letter-spacing:-.02em;color:var(--text-hi);text-decoration:none}
-.logo em{color:var(--blaze);font-style:normal}
-.nav-cta{display:inline-flex;align-items:center;gap:.4rem;padding:.55rem 1.35rem;background:var(--blaze);color:#fff;font-family:'Figtree',sans-serif;font-weight:600;font-size:.85rem;border-radius:3px;text-decoration:none;transition:background .15s,transform .15s}
-.nav-cta:hover{background:#ff7220;transform:translateY(-1px)}
+      /* ─── NOISE OVERLAY ─── */
+      body::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+        pointer-events: none;
+        z-index: 999;
+        opacity: 0.5;
+      }
 
-/* ─── TICKER ─── */
-.ticker{margin-top:62px;overflow:hidden;background:var(--cobalt);padding:.55rem 0}
-.ticker-inner{display:inline-flex;gap:2.5rem;animation:roll 30s linear infinite;white-space:nowrap}
-.tick{font-family:'Syne Mono',monospace;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(216,225,231,.9);display:flex;align-items:center;gap:.8rem}
-.tick::after{content:'//';color:rgba(216,225,231,.3)}
-@keyframes roll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+      /* ─── NAV ─── */
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 200;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1.1rem 2.5rem;
+        background: rgba(22, 17, 16, 0.88);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        border-bottom: 1px solid rgba(216, 225, 231, 0.07);
+      }
+      .logo {
+        font-family: "Syne", sans-serif;
+        font-weight: 800;
+        font-size: 1.15rem;
+        letter-spacing: -0.02em;
+        color: var(--text-hi);
+        text-decoration: none;
+      }
+      .logo em {
+        color: var(--blaze);
+        font-style: normal;
+      }
+      .nav-cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.55rem 1.35rem;
+        background: var(--blaze);
+        color: #fff;
+        font-family: "Figtree", sans-serif;
+        font-weight: 600;
+        font-size: 0.85rem;
+        border-radius: 3px;
+        text-decoration: none;
+        transition:
+          background 0.15s,
+          transform 0.15s;
+      }
+      .nav-cta:hover {
+        background: #ff7220;
+        transform: translateY(-1px);
+      }
 
-/* ─── HERO ─── */
-.hero{min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:7rem 2.5rem 5rem;position:relative;overflow:hidden}
-.hero-blob1{position:absolute;top:-10%;right:-5%;width:700px;height:700px;background:radial-gradient(circle,rgba(0,71,143,.14) 0%,transparent 65%);pointer-events:none}
-.hero-blob2{position:absolute;bottom:-5%;left:20%;width:500px;height:500px;background:radial-gradient(circle,rgba(255,93,0,.07) 0%,transparent 65%);pointer-events:none}
-.hero-tag{font-family:'Syne Mono',monospace;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--blaze);margin-bottom:1.75rem;display:flex;align-items:center;gap:.75rem}
-.hero-tag::before{content:'';display:block;width:2rem;height:1px;background:var(--blaze)}
-.hero-h1{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(3.8rem,10.5vw,9.5rem);line-height:.88;letter-spacing:-.035em;max-width:1000px}
-.h1-dim{color:var(--smoke)}
-.h1-mid{color:var(--text-hi)}
-.h1-hot{color:var(--blaze)}
-.hero-sub{margin-top:2.5rem;max-width:480px;font-size:1.05rem;line-height:1.7;color:var(--text-lo)}
-.hero-sub strong{color:var(--text-hi);font-weight:600}
-.hero-btns{margin-top:2.5rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
-.btn-main{display:inline-flex;align-items:center;gap:.45rem;padding:.85rem 2rem;background:var(--blaze);color:#fff;font-family:'Figtree',sans-serif;font-weight:700;font-size:1rem;border-radius:3px;text-decoration:none;transition:background .15s,transform .15s}
-.btn-main:hover{background:#ff7220;transform:translateY(-2px)}
-.btn-ghost{display:inline-flex;align-items:center;gap:.45rem;padding:.85rem 2rem;border:1px solid rgba(216,225,231,.2);color:var(--text-lo);font-family:'Figtree',sans-serif;font-weight:500;font-size:1rem;border-radius:3px;text-decoration:none;transition:border-color .15s,color .15s}
-.btn-ghost:hover{border-color:rgba(216,225,231,.5);color:var(--text-hi)}
-.scroll-hint{margin-top:4rem;font-family:'Syne Mono',monospace;font-size:.65rem;letter-spacing:.18em;color:var(--text-lo);text-transform:uppercase;display:flex;align-items:center;gap:.75rem}
-.scroll-hint::after{content:'';display:block;width:60px;height:1px;background:currentColor}
+      /* ─── TICKER ─── */
+      .ticker {
+        margin-top: 62px;
+        overflow: hidden;
+        background: var(--cobalt);
+        padding: 0.55rem 0;
+      }
+      .ticker-inner {
+        display: inline-flex;
+        gap: 2.5rem;
+        animation: roll 30s linear infinite;
+        white-space: nowrap;
+      }
+      .tick {
+        font-family: "Syne Mono", monospace;
+        font-size: 0.72rem;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: rgba(216, 225, 231, 0.9);
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+      }
+      .tick::after {
+        content: "//";
+        color: rgba(216, 225, 231, 0.3);
+      }
+      @keyframes roll {
+        from {
+          transform: translateX(0);
+        }
+        to {
+          transform: translateX(-50%);
+        }
+      }
+      /* ─── PROGRESS BAR ─── */
+      .progress-bar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: var(--mid);
+        z-index: 1000;
+      }
+      
+      /* ─── HERO ─── */
+      .hero {
+        min-height: 100svh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 7rem 2.5rem 5rem;
+        position: relative;
+        overflow: hidden;
+      }
+      .hero-blob1 {
+        position: absolute;
+        top: -10%;
+        right: -5%;
+        width: 700px;
+        height: 700px;
+        background: radial-gradient(
+          circle,
+          rgba(0, 71, 143, 0.14) 0%,
+          transparent 65%
+        );
+        pointer-events: none;
+      }
+      .hero-blob2 {
+        position: absolute;
+        bottom: -5%;
+        left: 20%;
+        width: 500px;
+        height: 500px;
+        background: radial-gradient(
+          circle,
+          rgba(255, 93, 0, 0.07) 0%,
+          transparent 65%
+        );
+        pointer-events: none;
+      }
+      .hero-tag {
+        font-family: "Syne Mono", monospace;
+        font-size: 0.7rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--blaze);
+        margin-bottom: 1.75rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+      .hero-tag::before {
+        content: "";
+        display: block;
+        width: 2rem;
+        height: 1px;
+        background: var(--blaze);
+      }
+      .hero-h1 {
+        font-family: "Syne", sans-serif;
+        font-weight: 800;
+        font-size: clamp(3.8rem, 10.5vw, 9.5rem);
+        line-height: 0.88;
+        letter-spacing: -0.035em;
+        max-width: 1000px;
+      }
+      .h1-dim {
+        color: var(--smoke);
+      }
+      .h1-mid {
+        color: var(--text-hi);
+      }
+      .h1-hot {
+        color: var(--blaze);
+      }
+      .hero-sub {
+        margin-top: 2.5rem;
+        max-width: 480px;
+        font-size: 1.05rem;
+        line-height: 1.7;
+        color: var(--text-lo);
+      }
+      .hero-sub strong {
+        color: var(--text-hi);
+        font-weight: 600;
+      }
+      .hero-btns {
+        margin-top: 2.5rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+      .btn-main {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        padding: 0.85rem 2rem;
+        background: var(--blaze);
+        color: #fff;
+        font-family: "Figtree", sans-serif;
+        font-weight: 700;
+        font-size: 1rem;
+        border-radius: 3px;
+        text-decoration: none;
+        transition:
+          background 0.15s,
+          transform 0.15s;
+      }
+      .btn-main:hover {
+        background: #ff7220;
+        transform: translateY(-2px);
+      }
+      .btn-ghost {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        padding: 0.85rem 2rem;
+        border: 1px solid rgba(216, 225, 231, 0.2);
+        color: var(--text-lo);
+        font-family: "Figtree", sans-serif;
+        font-weight: 500;
+        font-size: 1rem;
+        border-radius: 3px;
+        text-decoration: none;
+        transition:
+          border-color 0.15s,
+          color 0.15s;
+      }
+      .btn-ghost:hover {
+        border-color: rgba(216, 225, 231, 0.5);
+        color: var(--text-hi);
+      }
+      .scroll-hint {
+        margin-top: 4rem;
+        font-family: "Syne Mono", monospace;
+        font-size: 0.65rem;
+        letter-spacing: 0.18em;
+        color: var(--text-lo);
+        text-transform: uppercase;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+      .scroll-hint::after {
+        content: "";
+        display: block;
+        width: 60px;
+        height: 1px;
+        background: currentColor;
+      }
 
-/* ─── SHARED ─── */
-.wrap{max-width:1100px;margin:0 auto;padding:0 2.5rem}
-section{padding:7rem 0}
-.eyebrow{font-family:'Syne Mono',monospace;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--blaze);margin-bottom:1rem}
-.sec-title{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(2.2rem,5vw,3.8rem);line-height:.95;letter-spacing:-.03em;margin-bottom:1.25rem}
-.sec-body{font-size:1.05rem;line-height:1.7;color:var(--text-lo);max-width:560px}
+      /* ─── SHARED ─── */
+      .wrap {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 0 2.5rem;
+      }
+      section {
+        padding: 7rem 0;
+      }
+      .eyebrow {
+        font-family: "Syne Mono", monospace;
+        font-size: 0.68rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--blaze);
+        margin-bottom: 1rem;
+      }
+      .sec-title {
+        font-family: "Syne", sans-serif;
+        font-weight: 800;
+        font-size: clamp(2.2rem, 5vw, 3.8rem);
+        line-height: 0.95;
+        letter-spacing: -0.03em;
+        margin-bottom: 1.25rem;
+      }
+      .sec-body {
+        font-size: 1.05rem;
+        line-height: 1.7;
+        color: var(--text-lo);
+        max-width: 560px;
+      }
 
-/* ─── PAIN ─── */
-.pain{background:var(--void)}
-.pain-cards{display:grid;grid-template-columns:repeat(3,1fr);margin-top:3.5rem;border:1px solid rgba(216,225,231,.07)}
-.pain-card{padding:2.5rem 2rem;position:relative;overflow:hidden;border-right:1px solid rgba(216,225,231,.07)}
-.pain-card:last-child{border-right:none}
-.pain-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--mid);transition:background .3s}
-.pain-card:hover::before{background:var(--blaze)}
-.pain-num{font-family:'Syne',sans-serif;font-weight:800;font-size:5rem;color:rgba(216,225,231,.04);line-height:1;margin-bottom:1.25rem;user-select:none}
-.pain-txt{font-size:1rem;line-height:1.65;color:var(--text-lo)}
-.pain-txt strong{color:var(--text-hi);font-weight:600}
-.pain-footer{margin-top:3.5rem;font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(1.5rem,3.5vw,2.4rem);border-left:3px solid var(--blaze);padding-left:1.25rem;color:var(--text-hi)}
+      /* ─── PAIN ─── */
+      .pain {
+        background: var(--void);
+      }
+      .pain-cards {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        margin-top: 3.5rem;
+        border: 1px solid rgba(216, 225, 231, 0.07);
+      }
+      .pain-card {
+        padding: 2.5rem 2rem;
+        position: relative;
+        overflow: hidden;
+        border-right: 1px solid rgba(216, 225, 231, 0.07);
+      }
+      .pain-card:last-child {
+        border-right: none;
+      }
+      .pain-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: var(--mid);
+        transition: background 0.3s;
+      }
+      .pain-card:hover::before {
+        background: var(--blaze);
+      }
+      .pain-num {
+        font-family: "Syne", sans-serif;
+        font-weight: 800;
+        font-size: 5rem;
+        color: rgba(216, 225, 231, 0.04);
+        line-height: 1;
+        margin-bottom: 1.25rem;
+        user-select: none;
+      }
+      .pain-txt {
+        font-size: 1rem;
+        line-height: 1.65;
+        color: var(--text-lo);
+      }
+      .pain-txt strong {
+        color: var(--text-hi);
+        font-weight: 600;
+      }
+      .pain-footer {
+        margin-top: 3.5rem;
+        font-family: "Syne", sans-serif;
+        font-weight: 800;
+        font-size: clamp(1.5rem, 3.5vw, 2.4rem);
+        border-left: 3px solid var(--blaze);
+        padding-left: 1.25rem;
+        color: var(--text-hi);
+      }
 
-/* ─── DIFFERENCE ─── */
-.diff{background:var(--ink)}
-.manifesto{margin-top:3rem;padding:2.25rem;border:1px solid rgba(216,225,231,.1);font-family:'Syne',sans-serif;font-weight:700;font-size:clamp(1.05rem,2.2vw,1.4rem);line-height:1.55;color:var(--text-hi);position:relative}
-.manifesto::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--blaze)}
-.manifesto em{color:var(--blaze);font-style:normal}
-.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:2.5rem}
-.pillar{padding:2rem 1.75rem;background:var(--mid);border-radius:2px;transition:transform .2s,background .2s}
-.pillar:hover{transform:translateY(-5px);background:#4a3830}
-.pillar-ico{font-size:1.75rem;margin-bottom:1rem;display:block}
-.pillar-title{font-family:'Syne',sans-serif;font-weight:800;font-size:1.05rem;margin-bottom:.5rem}
-.pillar-txt{font-size:.88rem;color:var(--text-lo);line-height:1.6}
+      /* ─── DIFFERENCE ─── */
+      .diff {
+        background: var(--ink);
+      }
+      .manifesto {
+        margin-top: 3rem;
+        padding: 2.25rem;
+        border: 1px solid rgba(216, 225, 231, 0.1);
+        font-family: "Syne", sans-serif;
+        font-weight: 700;
+        font-size: clamp(1.05rem, 2.2vw, 1.4rem);
+        line-height: 1.55;
+        color: var(--text-hi);
+        position: relative;
+      }
+      .manifesto::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 3px;
+        height: 100%;
+        background: var(--blaze);
+      }
+      .manifesto em {
+        color: var(--blaze);
+        font-style: normal;
+      }
+      .pillars {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+        margin-top: 2.5rem;
+      }
+      .pillar {
+        padding: 2rem 1.75rem;
+        background: var(--mid);
+        border-radius: 2px;
+        transition:
+          transform 0.2s,
+          background 0.2s;
+      }
+      .pillar:hover {
+        transform: translateY(-5px);
+        background: #4a3830;
+      }
+      .pillar-ico {
+        font-size: 1.75rem;
+        margin-bottom: 1rem;
+        display: block;
+      }
+      .pillar-title {
+        font-family: "Syne", sans-serif;
+        font-weight: 800;
+        font-size: 1.05rem;
+        margin-bottom: 0.5rem;
+      }
+      .pillar-txt {
+        font-size: 0.88rem;
+        color: var(--text-lo);
+        line-height: 1.6;
+      }
 
-/* ─── MODULES ─── */
-.mods{background:var(--void)}
-.mod-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin-top:3.5rem;background:rgba(216,225,231,.07)}
-.mod-card{padding:2rem 1.75rem;background:var(--void);transition:background .2s;cursor:default}
-.mod-card:hover{background:#1f1815}
-.mod-card:hover .mod-n{color:var(--blaze)}
-.mod-n{font-family:'Syne Mono',monospace;font-size:.65rem;letter-spacing:.12em;color:var(--text-lo);margin-bottom:1rem;transition:color .2s}
-.mod-name{font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;margin-bottom:.4rem}
-.mod-desc{font-size:.83rem;color:var(--text-lo);line-height:1.55}
-.mod-card.bonus{background:rgba(255,93,0,.05);border-left:2px solid var(--blaze)}
-.mod-card.bonus .mod-n{color:var(--blaze)}
+      /* ─── MODULES ─── */
+      .mods {
+        background: var(--void);
+      }
+      .mod-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1px;
+        margin-top: 3.5rem;
+        background: rgba(216, 225, 231, 0.07);
+      }
+      .mod-card {
+        padding: 2rem 1.75rem;
+        background: var(--void);
+        transition: background 0.2s;
+        cursor: default;
+      }
+      .mod-card:hover {
+        background: #1f1815;
+      }
+      .mod-card:hover .mod-n {
+        color: var(--blaze);
+      }
+      .mod-n {
+        font-family: "Syne Mono", monospace;
+        font-size: 0.65rem;
+        letter-spacing: 0.12em;
+        color: var(--text-lo);
+        margin-bottom: 1rem;
+        transition: color 0.2s;
+      }
+      .mod-name {
+        font-family: "Syne", sans-serif;
+        font-weight: 800;
+        font-size: 1rem;
+        margin-bottom: 0.4rem;
+      }
+      .mod-desc {
+        font-size: 0.83rem;
+        color: var(--text-lo);
+        line-height: 1.55;
+      }
+      .mod-card.bonus {
+        background: rgba(255, 93, 0, 0.05);
+        border-left: 2px solid var(--blaze);
+      }
+      .mod-card.bonus .mod-n {
+        color: var(--blaze);
+      }
 
-/* ─── STATS ─── */
-.stats{background:var(--cobalt);padding:5rem 0}
-.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;text-align:center}
-.stat-num{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(3.5rem,7vw,5.5rem);line-height:1;color:#fff}
-.stat-num sup{font-size:.4em;color:rgba(216,225,231,.5);vertical-align:super}
-.stat-lbl{margin-top:.5rem;font-size:.8rem;color:rgba(216,225,231,.6);text-transform:uppercase;letter-spacing:.12em}
+      /* ─── STATS ─── */
+      .stats {
+        background: var(--cobalt);
+        padding: 5rem 0;
+      }
+      .stats-row {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 2rem;
+        text-align: center;
+      }
+      .stat-num {
+        font-family: "Syne", sans-serif;
+        font-weight: 800;
+        font-size: clamp(3.5rem, 7vw, 5.5rem);
+        line-height: 1;
+        color: #fff;
+      }
+      .stat-num sup {
+        font-size: 0.4em;
+        color: rgba(216, 225, 231, 0.5);
+        vertical-align: super;
+      }
+      .stat-lbl {
+        margin-top: 0.5rem;
+        font-size: 0.8rem;
+        color: rgba(216, 225, 231, 0.6);
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+      }
 
-/* ─── PRICING ─── */
-.pricing{background:var(--ink)}
-.price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3.5rem;align-items:start}
-.price-card{padding:2.5rem;background:var(--mid);border:1px solid transparent;border-radius:2px;position:relative;transition:border-color .2s}
-.price-card:hover{border-color:rgba(216,225,231,.12)}
-.price-card.hot{background:var(--void);border-color:var(--blaze);transform:scale(1.04)}
-.price-badge{position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:var(--blaze);color:#fff;font-family:'Syne',sans-serif;font-weight:700;font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;padding:.28rem 1rem;border-radius:2px;white-space:nowrap}
-.plan-tag{font-family:'Syne Mono',monospace;font-size:.65rem;letter-spacing:.16em;text-transform:uppercase;color:var(--blaze);margin-bottom:.6rem}
-.plan-name{font-family:'Syne',sans-serif;font-weight:800;font-size:1.5rem}
-.plan-desc{font-size:.88rem;color:var(--text-lo);line-height:1.55;margin-top:.4rem}
-.plan-price{font-family:'Syne',sans-serif;font-weight:800;font-size:2.2rem;margin:1.5rem 0 .2rem}
-.plan-period{font-size:.82rem;color:var(--text-lo);margin-bottom:1.75rem}
-.plan-feats{list-style:none;margin-bottom:2rem}
-.plan-feats li{padding:.45rem 0;font-size:.88rem;color:var(--text-lo);display:flex;align-items:flex-start;gap:.5rem;border-bottom:1px solid rgba(216,225,231,.05)}
-.plan-feats li::before{content:'→';color:var(--blaze);font-family:'Syne',sans-serif;flex-shrink:0}
-.plan-btn{display:block;text-align:center;padding:.75rem;font-family:'Figtree',sans-serif;font-weight:700;font-size:.9rem;border-radius:3px;text-decoration:none;transition:all .15s}
-.plan-btn-hot{background:var(--blaze);color:#fff}
-.plan-btn-hot:hover{background:#ff7220}
-.plan-btn-out{background:transparent;color:var(--text-hi);border:1px solid rgba(216,225,231,.2)}
-.plan-btn-out:hover{border-color:rgba(216,225,231,.5)}
-.pricing-note{margin-top:2rem;text-align:center;font-size:.82rem;color:var(--text-lo)}
+      /* ─── PRICING ─── */
+      .pricing {
+        background: var(--ink);
+      }
+      .price-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+        margin-top: 3.5rem;
+        align-items: start;
+      }
+      .price-card {
+        padding: 2.5rem;
+        background: var(--mid);
+        border: 1px solid transparent;
+        border-radius: 2px;
+        position: relative;
+        transition: border-color 0.2s;
+      }
+      .price-card:hover {
+        border-color: rgba(216, 225, 231, 0.12);
+      }
+      .price-card.hot {
+        background: var(--void);
+        border-color: var(--blaze);
+        transform: scale(1.04);
+      }
+      .price-badge {
+        position: absolute;
+        top: -13px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--blaze);
+        color: #fff;
+        font-family: "Syne", sans-serif;
+        font-weight: 700;
+        font-size: 0.65rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        padding: 0.28rem 1rem;
+        border-radius: 2px;
+        white-space: nowrap;
+      }
+      .plan-tag {
+        font-family: "Syne Mono", monospace;
+        font-size: 0.65rem;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--blaze);
+        margin-bottom: 0.6rem;
+      }
+      .plan-name {
+        font-family: "Syne", sans-serif;
+        font-weight: 800;
+        font-size: 1.5rem;
+      }
+      .plan-desc {
+        font-size: 0.88rem;
+        color: var(--text-lo);
+        line-height: 1.55;
+        margin-top: 0.4rem;
+      }
+      .plan-price {
+        font-family: "Syne", sans-serif;
+        font-weight: 800;
+        font-size: 2.2rem;
+        margin: 1.5rem 0 0.2rem;
+      }
+      .plan-period {
+        font-size: 0.82rem;
+        color: var(--text-lo);
+        margin-bottom: 1.75rem;
+      }
+      .plan-feats {
+        list-style: none;
+        margin-bottom: 2rem;
+      }
+      .plan-feats li {
+        padding: 0.45rem 0;
+        font-size: 0.88rem;
+        color: var(--text-lo);
+        display: flex;
+        align-items: flex-start;
+        gap: 0.5rem;
+        border-bottom: 1px solid rgba(216, 225, 231, 0.05);
+      }
+      .plan-feats li::before {
+        content: "→";
+        color: var(--blaze);
+        font-family: "Syne", sans-serif;
+        flex-shrink: 0;
+      }
+      .plan-btn {
+        display: block;
+        text-align: center;
+        padding: 0.75rem;
+        font-family: "Figtree", sans-serif;
+        font-weight: 700;
+        font-size: 0.9rem;
+        border-radius: 3px;
+        text-decoration: none;
+        transition: all 0.15s;
+      }
+      .plan-btn-hot {
+        background: var(--blaze);
+        color: #fff;
+      }
+      .plan-btn-hot:hover {
+        background: #ff7220;
+      }
+      .plan-btn-out {
+        background: transparent;
+        color: var(--text-hi);
+        border: 1px solid rgba(216, 225, 231, 0.2);
+      }
+      .plan-btn-out:hover {
+        border-color: rgba(216, 225, 231, 0.5);
+      }
+      .pricing-note {
+        margin-top: 2rem;
+        text-align: center;
+        font-size: 0.82rem;
+        color: var(--text-lo);
+      }
 
-/* ─── SCHEDULE ─── */
-.schedule{background:var(--void)}
-.sched-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;margin-top:3.5rem;align-items:start}
-.detail-list{display:flex;flex-direction:column;gap:1.1rem}
-.detail-row{display:flex;align-items:flex-start;gap:1.1rem;padding:1.2rem;background:rgba(216,225,231,.03);border-left:2px solid var(--blaze)}
-.det-ico{font-size:1.2rem;flex-shrink:0;padding-top:.1rem}
-.det-lbl{font-family:'Syne Mono',monospace;font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:var(--text-lo);margin-bottom:.2rem}
-.det-val{font-family:'Syne',sans-serif;font-weight:700;font-size:1rem}
-.who-cards{display:flex;flex-direction:column;gap:1rem}
-.who-card{padding:1.25rem 1.5rem;background:rgba(216,225,231,.03);border-radius:2px;transition:background .2s}
-.who-card:hover{background:rgba(216,225,231,.06)}
-.who-title{font-family:'Syne',sans-serif;font-weight:800;font-size:.95rem;margin-bottom:.35rem}
-.who-desc{font-size:.85rem;color:var(--text-lo);line-height:1.55}
+      /* ─── SCHEDULE ─── */
+      .schedule {
+        background: var(--void);
+      }
+      .sched-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+        margin-top: 3.5rem;
+        align-items: start;
+      }
+      .detail-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1.1rem;
+      }
+      .detail-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 1.1rem;
+        padding: 1.2rem;
+        background: rgba(216, 225, 231, 0.03);
+        border-left: 2px solid var(--blaze);
+      }
+      .det-ico {
+        font-size: 1.2rem;
+        flex-shrink: 0;
+        padding-top: 0.1rem;
+      }
+      .det-lbl {
+        font-family: "Syne Mono", monospace;
+        font-size: 0.62rem;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--text-lo);
+        margin-bottom: 0.2rem;
+      }
+      .det-val {
+        font-family: "Syne", sans-serif;
+        font-weight: 700;
+        font-size: 1rem;
+      }
+      .who-cards {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+      .who-card {
+        padding: 1.25rem 1.5rem;
+        background: rgba(216, 225, 231, 0.03);
+        border-radius: 2px;
+        transition: background 0.2s;
+      }
+      .who-card:hover {
+        background: rgba(216, 225, 231, 0.06);
+      }
+      .who-title {
+        font-family: "Syne", sans-serif;
+        font-weight: 800;
+        font-size: 0.95rem;
+        margin-bottom: 0.35rem;
+      }
+      .who-desc {
+        font-size: 0.85rem;
+        color: var(--text-lo);
+        line-height: 1.55;
+      }
 
-/* ─── COMPANIES ─── */
-.companies{background:var(--cobalt);padding:6rem 0}
-.companies .sec-title{color:#fff}
-.companies .sec-body{color:rgba(216,225,231,.75);max-width:520px}
+      /* ─── COMPANIES ─── */
+      .companies {
+        background: var(--cobalt);
+        padding: 6rem 0;
+      }
+      .companies .sec-title {
+        color: #fff;
+      }
+      .companies .sec-body {
+        color: rgba(216, 225, 231, 0.75);
+        max-width: 520px;
+      }
 
-/* ─── FAQ ─── */
-.faq{background:var(--ink)}
-.faq-list{margin-top:3rem;border-top:1px solid rgba(216,225,231,.08)}
-.faq-item{border-bottom:1px solid rgba(216,225,231,.08)}
-.faq-q{width:100%;text-align:left;background:none;border:none;padding:1.5rem 0;font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;color:var(--text-hi);cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:1rem}
-.faq-ico{font-size:1.2rem;color:var(--blaze);flex-shrink:0;transition:transform .3s}
-.faq-item.open .faq-ico{transform:rotate(45deg)}
-.faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease}
-.faq-a-inner{padding-bottom:1.5rem;font-size:.95rem;color:var(--text-lo);line-height:1.7}
-.faq-a-inner strong{color:var(--text-hi);font-weight:600}
+      /* ─── FAQ ─── */
+      .faq {
+        background: var(--ink);
+      }
+      .faq-list {
+        margin-top: 3rem;
+        border-top: 1px solid rgba(216, 225, 231, 0.08);
+      }
+      .faq-item {
+        border-bottom: 1px solid rgba(216, 225, 231, 0.08);
+      }
+      .faq-q {
+        width: 100%;
+        text-align: left;
+        background: none;
+        border: none;
+        padding: 1.5rem 0;
+        font-family: "Syne", sans-serif;
+        font-weight: 700;
+        font-size: 1rem;
+        color: var(--text-hi);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+      }
+      .faq-ico {
+        font-size: 1.2rem;
+        color: var(--blaze);
+        flex-shrink: 0;
+        transition: transform 0.3s;
+      }
+      .faq-item.open .faq-ico {
+        transform: rotate(45deg);
+      }
+      .faq-a {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.35s ease;
+      }
+      .faq-a-inner {
+        padding-bottom: 1.5rem;
+        font-size: 0.95rem;
+        color: var(--text-lo);
+        line-height: 1.7;
+      }
+      .faq-a-inner strong {
+        color: var(--text-hi);
+        font-weight: 600;
+      }
 
-/* ─── FINAL CTA ─── */
-.cta-final{background:var(--blaze);padding:9rem 0;text-align:center;position:relative;overflow:hidden}
-.cta-final::before{content:'BUILD.';position:absolute;font-family:'Syne',sans-serif;font-weight:800;font-size:22vw;color:rgba(0,0,0,.07);line-height:1;top:50%;left:50%;transform:translate(-50%,-50%);white-space:nowrap;pointer-events:none;user-select:none}
-.cta-final .sec-title{color:#fff;font-size:clamp(3rem,9vw,6.5rem);position:relative}
-.cta-final .sec-body{color:rgba(255,255,255,.8);max-width:400px;margin:.75rem auto 2.5rem;position:relative;font-size:1.05rem}
-.btn-white{display:inline-flex;align-items:center;gap:.45rem;padding:1rem 2.5rem;background:#fff;color:var(--blaze);font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;border-radius:3px;text-decoration:none;transition:all .2s;position:relative}
-.btn-white:hover{background:var(--ink);color:#fff}
+      /* ─── FINAL CTA ─── */
+      .cta-final {
+        background: var(--blaze);
+        padding: 9rem 0;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+      .cta-final::before {
+        content: "BUILD.";
+        position: absolute;
+        font-family: "Syne", sans-serif;
+        font-weight: 800;
+        font-size: 22vw;
+        color: rgba(0, 0, 0, 0.07);
+        line-height: 1;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        white-space: nowrap;
+        pointer-events: none;
+        user-select: none;
+      }
+      .cta-final .sec-title {
+        color: #fff;
+        font-size: clamp(3rem, 9vw, 6.5rem);
+        position: relative;
+      }
+      .cta-final .sec-body {
+        color: rgba(255, 255, 255, 0.8);
+        max-width: 400px;
+        margin: 0.75rem auto 2.5rem;
+        position: relative;
+        font-size: 1.05rem;
+      }
+      .btn-white {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        padding: 1rem 2.5rem;
+        background: #fff;
+        color: var(--blaze);
+        font-family: "Syne", sans-serif;
+        font-weight: 800;
+        font-size: 1.1rem;
+        border-radius: 3px;
+        text-decoration: none;
+        transition: all 0.2s;
+        position: relative;
+      }
+      .btn-white:hover {
+        background: var(--ink);
+        color: #fff;
+      }
 
-/* ─── FOOTER ─── */
-footer{background:var(--void);padding:2.5rem;display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(216,225,231,.06);font-size:.83rem;color:var(--text-lo);flex-wrap:wrap;gap:1rem}
-.footer-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;color:var(--text-hi)}
-.footer-logo em{color:var(--blaze);font-style:normal}
+      /* ─── FOOTER ─── */
+      footer {
+        background: var(--void);
+        padding: 2.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-top: 1px solid rgba(216, 225, 231, 0.06);
+        font-size: 0.83rem;
+        color: var(--text-lo);
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+      .footer-logo {
+        font-family: "Syne", sans-serif;
+        font-weight: 800;
+        font-size: 1.1rem;
+        color: var(--text-hi);
+      }
+      .footer-logo em {
+        color: var(--blaze);
+        font-style: normal;
+      }
 
-/* ─── REVEAL ─── */
-.r{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
-.r.on{opacity:1;transform:translateY(0)}
-.r2{opacity:0;transform:translateY(28px);transition:opacity .7s .12s ease,transform .7s .12s ease}
-.r2.on{opacity:1;transform:translateY(0)}
-.r3{opacity:0;transform:translateY(28px);transition:opacity .7s .24s ease,transform .7s .24s ease}
-.r3.on{opacity:1;transform:translateY(0)}
+      /* ─── REVEAL ─── */
+      .r {
+        opacity: 0;
+        transform: translateY(28px);
+        transition:
+          opacity 0.7s ease,
+          transform 0.7s ease;
+      }
+      .r.on {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .r2 {
+        opacity: 0;
+        transform: translateY(28px);
+        transition:
+          opacity 0.7s 0.12s ease,
+          transform 0.7s 0.12s ease;
+      }
+      .r2.on {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .r3 {
+        opacity: 0;
+        transform: translateY(28px);
+        transition:
+          opacity 0.7s 0.24s ease,
+          transform 0.7s 0.24s ease;
+      }
+      .r3.on {
+        opacity: 1;
+        transform: translateY(0);
+      }
 
-/* ─── CURSOR EFFECT ─── */
-.cursor-glow{
-    position:fixed;
-    width:320px;
-    height:320px;
-    border-radius:50%;
-    background:rgba(255,93,0,.18);
-    filter:blur(90px);
-    pointer-events:none;
-    z-index:1000;
-    transform:translate(-50%,-50%);
-}
+      /* ─── CURSOR EFFECT ─── */
+      .cursor-glow {
+        position: fixed;
+        width: 320px;
+        height: 320px;
+        border-radius: 50%;
+        background: rgba(255, 93, 0, 0.18);
+        filter: blur(90px);
+        pointer-events: none;
+        z-index: 1000;
+        transform: translate(-50%, -50%);
+      }
 
-/* ─── RESPONSIVE ─── */
-@media(max-width:900px){
-  .pain-cards,.pillars,.mod-grid,.price-grid,.stats-row,.sched-grid{grid-template-columns:1fr}
-  .pain-card{border-right:none;border-bottom:1px solid rgba(216,225,231,.07)}
-  .price-card.hot{transform:none}
-  .mod-grid{grid-template-columns:1fr 1fr}
-  nav{padding:1rem 1.25rem}
-  section{padding:5rem 0}
-  .wrap{padding:0 1.25rem}
-  .hero{padding:6rem 1.25rem 4rem}
-  footer{padding:2rem 1.25rem}
-}
-@media(max-width:580px){
-  .hero-btns{flex-direction:column;align-items:flex-start}
-  .btn-main,.btn-ghost{width:100%;justify-content:center}
-  .mod-grid{grid-template-columns:1fr}
-}
+      /* ─── RESPONSIVE ─── */
+      @media (max-width: 900px) {
+        .pain-cards,
+        .pillars,
+        .mod-grid,
+        .price-grid,
+        .stats-row,
+        .sched-grid {
+          grid-template-columns: 1fr;
+        }
+        .pain-card {
+          border-right: none;
+          border-bottom: 1px solid rgba(216, 225, 231, 0.07);
+        }
+        .price-card.hot {
+          transform: none;
+        }
+        .mod-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+        nav {
+          padding: 1rem 1.25rem;
+        }
+        section {
+          padding: 5rem 0;
+        }
+        .wrap {
+          padding: 0 1.25rem;
+        }
+        .hero {
+          padding: 6rem 1.25rem 4rem;
+        }
+        footer {
+          padding: 2rem 1.25rem;
+        }
+      }
+      @media (max-width: 580px) {
+        .hero-btns {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        .btn-main,
+        .btn-ghost {
+          width: 100%;
+          justify-content: center;
+        }
+        .mod-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="progress-bar"></div>
+    <div class="cursor-glow"></div>
+    <div class="cursor-glow"></div>
+    <!-- NAV -->
+    <nav>
+      <a href="#" class="logo">Content<em>City</em></a>
+      <a
+        href="https://forms.gle/bWZMqAr4nzVEfvfp9"
+        target="_blank"
+        class="nav-cta"
+        >Apply Now →</a
+      >
+    </nav>
 
-
-</style>
-</head>
-<body>
-<div class="cursor-glow"></div>
-<!-- NAV -->
-<nav>
-  <a href="#" class="logo">Content<em>City</em></a>
-  <a href="https://forms.gle/bWZMqAr4nzVEfvfp9" target="_blank" class="nav-cta">Apply Now →</a>
-</nav>
-
-<!-- TICKER -->
-<div class="ticker" aria-hidden="true">
-  <div class="ticker-inner" id="ticker">
-    <span class="tick">Video Production</span>
-    <span class="tick">Real Projects</span>
-    <span class="tick">Copywriting</span>
-    <span class="tick">Brand Strategy</span>
-    <span class="tick">Freelance Income</span>
-    <span class="tick">32 Weeks</span>
-    <span class="tick">Portfolio Building</span>
-    <span class="tick">Graphic Design</span>
-    <span class="tick">Video Editing</span>
-    <span class="tick">AI & Content</span>
-    <!-- duplicate for seamless loop -->
-    <span class="tick">Video Production</span>
-    <span class="tick">Real Projects</span>
-    <span class="tick">Copywriting</span>
-    <span class="tick">Brand Strategy</span>
-    <span class="tick">Freelance Income</span>
-    <span class="tick">32 Weeks</span>
-    <span class="tick">Portfolio Building</span>
-    <span class="tick">Graphic Design</span>
-    <span class="tick">Video Editing</span>
-    <span class="tick">AI & Content</span>
-  </div>
-</div>
-
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-blob1"></div>
-  <div class="hero-blob2"></div>
-  <div class="wrap">
-    <p class="hero-tag r">Content Creator Junior Bootcamp · 32 Weeks</p>
-    <h1 class="hero-h1 r">
-      <span class="h1-dim">Stop taking</span><br>
-      <span class="h1-mid">courses.</span><br>
-      <span class="h1-hot">Start earning.</span>
-    </h1>
-    <p class="hero-sub r2">
-      <strong>No more theory.</strong> From day one you work on real briefs, build a portfolio, and start landing paid work — all within 32 weeks.
-    </p>
-    <div class="hero-btns r2">
-      <a href="https://forms.gle/bWZMqAr4nzVEfvfp9" target="_blank" class="btn-main">Apply Now — Spots Are Limited →</a>
-      <a href="#difference" class="btn-ghost">See how it works ↓</a>
+    <!-- TICKER -->
+    <div class="ticker" aria-hidden="true">
+      <div class="ticker-inner" id="ticker">
+        <span class="tick">Video Production</span>
+        <span class="tick">Real Projects</span>
+        <span class="tick">Copywriting</span>
+        <span class="tick">Brand Strategy</span>
+        <span class="tick">Freelance Income</span>
+        <span class="tick">32 Weeks</span>
+        <span class="tick">Portfolio Building</span>
+        <span class="tick">Graphic Design</span>
+        <span class="tick">Video Editing</span>
+        <span class="tick">AI & Content</span>
+        <!-- duplicate for seamless loop -->
+        <span class="tick">Video Production</span>
+        <span class="tick">Real Projects</span>
+        <span class="tick">Copywriting</span>
+        <span class="tick">Brand Strategy</span>
+        <span class="tick">Freelance Income</span>
+        <span class="tick">32 Weeks</span>
+        <span class="tick">Portfolio Building</span>
+        <span class="tick">Graphic Design</span>
+        <span class="tick">Video Editing</span>
+        <span class="tick">AI & Content</span>
+      </div>
     </div>
-    <p class="scroll-hint r3">Scroll to explore</p>
-  </div>
-</section>
 
-<!-- PAIN -->
-<section class="pain">
-  <div class="wrap">
-    <p class="eyebrow r">The Problem</p>
-    <h2 class="sec-title r">Tired of courses<br>that lead nowhere?</h2>
-    <div class="pain-cards">
-      <div class="pain-card r">
-        <div class="pain-num">01</div>
-        <p class="pain-txt"><strong>You've sat through hours of content</strong> but still can't land a client or get a single callback.</p>
-      </div>
-      <div class="pain-card r2">
-        <div class="pain-num">02</div>
-        <p class="pain-txt"><strong>Your portfolio is empty.</strong> Nobody hands you a first chance without proof you can actually deliver.</p>
-      </div>
-      <div class="pain-card r3">
-        <div class="pain-num">03</div>
-        <p class="pain-txt"><strong>Expensive courses. Pure theory.</strong> You finish and still don't know what to do the next morning.</p>
-      </div>
-    </div>
-    <p class="pain-footer r">We fix all three.</p>
-  </div>
-</section>
-
-<!-- DIFFERENCE -->
-<section class="diff" id="difference">
-  <div class="wrap">
-    <p class="eyebrow r">What makes us different</p>
-    <h2 class="sec-title r">We don't just teach content.<br>We make you <em style="color:var(--blaze);font-style:normal">a creator.</em></h2>
-    <blockquote class="manifesto r">
-      "What sets Content City apart: we do <em>real projects</em>. In 32 weeks you'll build a portfolio so deep it has no end to it. From the very first week you're already working on live briefs — and you start finding paid work <em>fast</em>."
-    </blockquote>
-    <div class="pillars">
-      <div class="pillar r">
-        <span class="pillar-ico">🎥</span>
-        <h3 class="pillar-title">Learn from working pros</h3>
-        <p class="pillar-txt">Mentors who are active in the market right now. Real-world experience, not outdated theory.</p>
-      </div>
-      <div class="pillar r2">
-        <span class="pillar-ico">💼</span>
-        <h3 class="pillar-title">Real briefs. Real clients.</h3>
-        <p class="pillar-txt">Not hypothetical exercises. Actual projects with actual deliverables and actual feedback.</p>
-      </div>
-      <div class="pillar r3">
-        <span class="pillar-ico">📂</span>
-        <h3 class="pillar-title">A portfolio that opens doors</h3>
-        <p class="pillar-txt">Walk out with a resume and portfolio ready for employment or freelance — your choice.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- MODULES -->
-<section class="mods">
-  <div class="wrap">
-    <p class="eyebrow r">Curriculum</p>
-    <h2 class="sec-title r">7 real-world<br>skill modules.</h2>
-    <div class="mod-grid">
-      <div class="mod-card r">
-        <p class="mod-n">01 / 07</p>
-        <h3 class="mod-name">Videography</h3>
-        <p class="mod-desc">Pro camera work + mobile filmmaking. Both matter in today's market.</p>
-      </div>
-      <div class="mod-card r">
-        <p class="mod-n">02 / 07</p>
-        <h3 class="mod-name">Lighting</h3>
-        <p class="mod-desc">The skill that separates amateur from pro. Natural and studio light, fully covered.</p>
-      </div>
-      <div class="mod-card r">
-        <p class="mod-n">03 / 07</p>
-        <h3 class="mod-name">Copywriting</h3>
-        <p class="mod-desc">Words that sell, engage, and convert. Consistently the highest-paid content skill.</p>
-      </div>
-      <div class="mod-card r">
-        <p class="mod-n">04 / 07</p>
-        <h3 class="mod-name">Graphic Design</h3>
-        <p class="mod-desc">Visual storytelling for social, campaigns, and branded content.</p>
-      </div>
-      <div class="mod-card r">
-        <p class="mod-n">05 / 07</p>
-        <h3 class="mod-name">Video Editing</h3>
-        <p class="mod-desc">Cut, color, sound, and pacing. Make content people actually watch through.</p>
-      </div>
-      <div class="mod-card r">
-        <p class="mod-n">06 / 07</p>
-        <h3 class="mod-name">Branding</h3>
-        <p class="mod-desc">Build brands people remember. Strategy, identity, and tone of voice.</p>
-      </div>
-      <div class="mod-card r">
-        <p class="mod-n">07 / 07</p>
-        <h3 class="mod-name">AI & Content Strategy</h3>
-        <p class="mod-desc">Work smarter using AI tools. Plan, produce, and distribute content at scale.</p>
-      </div>
-      <div class="mod-card bonus r">
-        <p class="mod-n">+ bonus</p>
-        <h3 class="mod-name">Live Client Work</h3>
-        <p class="mod-desc">Every module connects to a real brief. Theory and action, every single session.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- STATS -->
-<div class="stats">
-  <div class="wrap">
-    <div class="stats-row">
-      <div class="r">
-        <div class="stat-num" data-count="32">0</div>
-        <div class="stat-lbl">Weeks of Training</div>
-      </div>
-      <div class="r2">
-        <div class="stat-num" data-count="7">0</div>
-        <div class="stat-lbl">Skill Modules</div>
-      </div>
-      <div class="r3">
-        <div class="stat-num">20<sup>max</sup></div>
-        <div class="stat-lbl">Students Per Cohort</div>
-      </div>
-      <div class="r3">
-        <div class="stat-num">3</div>
-        <div class="stat-lbl">Plans to Choose From</div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- PRICING -->
-<section class="pricing">
-  <div class="wrap">
-    <p class="eyebrow r">Investment</p>
-    <h2 class="sec-title r">Choose your path.</h2>
-    <div class="price-grid">
-      <!-- Online -->
-      <div class="price-card r">
-        <p class="plan-tag">Online</p>
-        <h3 class="plan-name">Remote Access</h3>
-        <p class="plan-desc">Full access from anywhere. Every module, every session.</p>
-        <div class="plan-price">2.2M <small style="font-size:.4em;color:var(--text-lo)">IRR</small></div>
-        <div class="plan-period">per month · 32 weeks total</div>
-        <ul class="plan-feats">
-          <li>Full online access</li>
-          <li>All 7 skill modules</li>
-          <li>Real project briefs</li>
-          <li>Portfolio support</li>
-        </ul>
-        <a href="https://forms.gle/bWZMqAr4nzVEfvfp9" target="_blank" class="plan-btn plan-btn-out">Apply →</a>
-      </div>
-      <!-- Standard FEATURED -->
-      <div class="price-card hot r2">
-        <div class="price-badge">Most Popular</div>
-        <p class="plan-tag">Standard</p>
-        <h3 class="plan-name">In-Person</h3>
-        <p class="plan-desc" style="color:rgba(216,225,231,.65)">All online benefits plus physical classroom sessions.</p>
-        <div class="plan-price">4.8M <small style="font-size:.4em;color:rgba(216,225,231,.4)">IRR</small></div>
-        <div class="plan-period">per month · 32 weeks total</div>
-        <ul class="plan-feats">
-          <li>Everything in Online</li>
-          <li>In-person sessions</li>
-          <li>Sat &amp; Wed · 7–8:30 PM</li>
-          <li>Collaborate in-class</li>
-        </ul>
-        <a href="https://forms.gle/bWZMqAr4nzVEfvfp9" target="_blank" class="plan-btn plan-btn-hot">Apply →</a>
-      </div>
-      <!-- VIP -->
-      <div class="price-card r3">
-        <p class="plan-tag">VIP + Mentoring</p>
-        <h3 class="plan-name">Full Access</h3>
-        <p class="plan-desc">Personal mentor + in-person + exclusive content production camps.</p>
-        <div class="plan-price">5.5M <small style="font-size:.4em;color:var(--text-lo)">IRR</small></div>
-        <div class="plan-period">per month · 32 weeks total</div>
-        <ul class="plan-feats">
-          <li>Everything in Standard</li>
-          <li>Dedicated personal mentor</li>
-          <li>Content production camps</li>
-          <li>Priority project placement</li>
-        </ul>
-        <a href="https://forms.gle/bWZMqAr4nzVEfvfp9" target="_blank" class="plan-btn plan-btn-out">Apply →</a>
-      </div>
-    </div>
-    <p class="pricing-note r">Access activates immediately after payment. Cohort capped at 15–20 students.</p>
-  </div>
-</section>
-
-<!-- SCHEDULE -->
-<section class="schedule">
-  <div class="wrap">
-    <p class="eyebrow r">The Details</p>
-    <h2 class="sec-title r">Here's exactly what<br>you're signing up for.</h2>
-    <div class="sched-grid">
-      <div class="detail-list">
-        <div class="detail-row r">
-          <span class="det-ico">📅</span>
-          <div><div class="det-lbl">Schedule</div><div class="det-val">Saturdays &amp; Wednesdays</div></div>
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-blob1"></div>
+      <div class="hero-blob2"></div>
+      <div class="wrap">
+        <p class="hero-tag r">Content Creator Junior Bootcamp · 32 Weeks</p>
+        <h1 class="hero-h1 r">
+          <span class="h1-dim">Stop taking</span><br />
+          <span class="h1-mid">courses.</span><br />
+          <span class="h1-hot">Start earning.</span>
+        </h1>
+        <p class="hero-sub r2">
+          <strong>No more theory.</strong> From day one you work on real briefs,
+          build a portfolio, and start landing paid work — all within 32 weeks.
+        </p>
+        <div class="hero-btns r2">
+          <a
+            href="https://forms.gle/bWZMqAr4nzVEfvfp9"
+            target="_blank"
+            class="btn-main"
+            >Apply Now — Spots Are Limited →</a
+          >
+          <a href="#difference" class="btn-ghost">See how it works ↓</a>
         </div>
-        <div class="detail-row r">
-          <span class="det-ico">🕖</span>
-          <div><div class="det-lbl">Session Time</div><div class="det-val">7:00 PM — 8:30 PM</div></div>
-        </div>
-        <div class="detail-row r">
-          <span class="det-ico">⏱️</span>
-          <div><div class="det-lbl">Duration</div><div class="det-val">32 Weeks</div></div>
-        </div>
-        <div class="detail-row r">
-          <span class="det-ico">👥</span>
-          <div><div class="det-lbl">Cohort Size</div><div class="det-val">15–20 Students Max.</div></div>
-        </div>
-        <div class="detail-row r">
-          <span class="det-ico">🏷️</span>
-          <div><div class="det-lbl">Program Type</div><div class="det-val">Content Creator Junior</div></div>
-        </div>
+        <p class="scroll-hint r3">Scroll to explore</p>
       </div>
-      <div>
-        <p class="sec-body r" style="margin-bottom:1.5rem">This bootcamp is built for three kinds of people.</p>
-        <div class="who-cards">
-          <div class="who-card r">
-            <h4 class="who-title">🔥 Age 20–28 — The Starter</h4>
-            <p class="who-desc">You want freelance income and a real portfolio. You're done with theory. You're ready to work from day one.</p>
+    </section>
+
+    <!-- PAIN -->
+    <section class="pain">
+      <div class="wrap">
+        <p class="eyebrow r">The Problem</p>
+        <h2 class="sec-title r">Tired of courses<br />that lead nowhere?</h2>
+        <div class="pain-cards">
+          <div class="pain-card r">
+            <div class="pain-num">01</div>
+            <p class="pain-txt">
+              <strong>You've sat through hours of content</strong> but still
+              can't land a client or get a single callback.
+            </p>
           </div>
-          <div class="who-card r2">
-            <h4 class="who-title">⚡ Age 25–35 — The Career Switcher</h4>
-            <p class="who-desc">Unhappy where you are. You want a skill that actually pays. You're ready to invest in yourself for real this time.</p>
+          <div class="pain-card r2">
+            <div class="pain-num">02</div>
+            <p class="pain-txt">
+              <strong>Your portfolio is empty.</strong> Nobody hands you a first
+              chance without proof you can actually deliver.
+            </p>
           </div>
-          <div class="who-card r3">
-            <h4 class="who-title">🏢 Companies — Team Training</h4>
-            <p class="who-desc">Need qualified content creators? We train your team, assess their level, and build their skills from the ground up.</p>
+          <div class="pain-card r3">
+            <div class="pain-num">03</div>
+            <p class="pain-txt">
+              <strong>Expensive courses. Pure theory.</strong> You finish and
+              still don't know what to do the next morning.
+            </p>
+          </div>
+        </div>
+        <p class="pain-footer r">We fix all three.</p>
+      </div>
+    </section>
+
+    <!-- DIFFERENCE -->
+    <section class="diff" id="difference">
+      <div class="wrap">
+        <p class="eyebrow r">What makes us different</p>
+        <h2 class="sec-title r">
+          We don't just teach content.<br />We make you
+          <em style="color: var(--blaze); font-style: normal">a creator.</em>
+        </h2>
+        <blockquote class="manifesto r">
+          "What sets Content City apart: we do <em>real projects</em>. In 32
+          weeks you'll build a portfolio so deep it has no end to it. From the
+          very first week you're already working on live briefs — and you start
+          finding paid work <em>fast</em>."
+        </blockquote>
+        <div class="pillars">
+          <div class="pillar r">
+            <span class="pillar-ico">🎥</span>
+            <h3 class="pillar-title">Learn from working pros</h3>
+            <p class="pillar-txt">
+              Mentors who are active in the market right now. Real-world
+              experience, not outdated theory.
+            </p>
+          </div>
+          <div class="pillar r2">
+            <span class="pillar-ico">💼</span>
+            <h3 class="pillar-title">Real briefs. Real clients.</h3>
+            <p class="pillar-txt">
+              Not hypothetical exercises. Actual projects with actual
+              deliverables and actual feedback.
+            </p>
+          </div>
+          <div class="pillar r3">
+            <span class="pillar-ico">📂</span>
+            <h3 class="pillar-title">A portfolio that opens doors</h3>
+            <p class="pillar-txt">
+              Walk out with a resume and portfolio ready for employment or
+              freelance — your choice.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MODULES -->
+    <section class="mods">
+      <div class="wrap">
+        <p class="eyebrow r">Curriculum</p>
+        <h2 class="sec-title r">7 real-world<br />skill modules.</h2>
+        <div class="mod-grid">
+          <div class="mod-card r">
+            <p class="mod-n">01 / 07</p>
+            <h3 class="mod-name">Videography</h3>
+            <p class="mod-desc">
+              Pro camera work + mobile filmmaking. Both matter in today's
+              market.
+            </p>
+          </div>
+          <div class="mod-card r">
+            <p class="mod-n">02 / 07</p>
+            <h3 class="mod-name">Lighting</h3>
+            <p class="mod-desc">
+              The skill that separates amateur from pro. Natural and studio
+              light, fully covered.
+            </p>
+          </div>
+          <div class="mod-card r">
+            <p class="mod-n">03 / 07</p>
+            <h3 class="mod-name">Copywriting</h3>
+            <p class="mod-desc">
+              Words that sell, engage, and convert. Consistently the
+              highest-paid content skill.
+            </p>
+          </div>
+          <div class="mod-card r">
+            <p class="mod-n">04 / 07</p>
+            <h3 class="mod-name">Graphic Design</h3>
+            <p class="mod-desc">
+              Visual storytelling for social, campaigns, and branded content.
+            </p>
+          </div>
+          <div class="mod-card r">
+            <p class="mod-n">05 / 07</p>
+            <h3 class="mod-name">Video Editing</h3>
+            <p class="mod-desc">
+              Cut, color, sound, and pacing. Make content people actually watch
+              through.
+            </p>
+          </div>
+          <div class="mod-card r">
+            <p class="mod-n">06 / 07</p>
+            <h3 class="mod-name">Branding</h3>
+            <p class="mod-desc">
+              Build brands people remember. Strategy, identity, and tone of
+              voice.
+            </p>
+          </div>
+          <div class="mod-card r">
+            <p class="mod-n">07 / 07</p>
+            <h3 class="mod-name">AI & Content Strategy</h3>
+            <p class="mod-desc">
+              Work smarter using AI tools. Plan, produce, and distribute content
+              at scale.
+            </p>
+          </div>
+          <div class="mod-card bonus r">
+            <p class="mod-n">+ bonus</p>
+            <h3 class="mod-name">Live Client Work</h3>
+            <p class="mod-desc">
+              Every module connects to a real brief. Theory and action, every
+              single session.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STATS -->
+    <div class="stats">
+      <div class="wrap">
+        <div class="stats-row">
+          <div class="r">
+            <div class="stat-num" data-count="32">0</div>
+            <div class="stat-lbl">Weeks of Training</div>
+          </div>
+          <div class="r2">
+            <div class="stat-num" data-count="7">0</div>
+            <div class="stat-lbl">Skill Modules</div>
+          </div>
+          <div class="r3">
+            <div class="stat-num">20<sup>max</sup></div>
+            <div class="stat-lbl">Students Per Cohort</div>
+          </div>
+          <div class="r3">
+            <div class="stat-num">3</div>
+            <div class="stat-lbl">Plans to Choose From</div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
 
-<!-- COMPANIES -->
-<section class="companies">
-  <div class="wrap">
-    <p class="eyebrow r" style="color:rgba(216,225,231,.5)">For Organizations</p>
-    <h2 class="sec-title r">Looking to train<br>your team?</h2>
-    <p class="sec-body r">Content City works with companies that need skilled, ready-to-work content creators. Our graduates handle real client projects from week one — so they're ready to deliver the moment they join you.</p>
-    <a href="https://forms.gle/bWZMqAr4nzVEfvfp9" target="_blank" class="btn-main r" style="margin-top:2.5rem;display:inline-flex">Talk to us →</a>
-  </div>
-</section>
-
-<!-- FAQ -->
-<section class="faq">
-  <div class="wrap">
-    <p class="eyebrow r">Questions</p>
-    <h2 class="sec-title r">Straight answers.</h2>
-    <div class="faq-list r">
-      <div class="faq-item">
-        <button class="faq-q">Do I need prior experience? <span class="faq-ico">+</span></button>
-        <div class="faq-a"><div class="faq-a-inner">No. We start from zero. What matters is your drive and the time you can commit. We build everything else together, from the ground up.</div></div>
+    <!-- PRICING -->
+    <section class="pricing">
+      <div class="wrap">
+        <p class="eyebrow r">Investment</p>
+        <h2 class="sec-title r">Choose your path.</h2>
+        <div class="price-grid">
+          <!-- Online -->
+          <div class="price-card r">
+            <p class="plan-tag">Online</p>
+            <h3 class="plan-name">Remote Access</h3>
+            <p class="plan-desc">
+              Full access from anywhere. Every module, every session.
+            </p>
+            <div class="plan-price">
+              2.2M
+              <small style="font-size: 0.4em; color: var(--text-lo)">IRR</small>
+            </div>
+            <div class="plan-period">per month · 32 weeks total</div>
+            <ul class="plan-feats">
+              <li>Full online access</li>
+              <li>All 7 skill modules</li>
+              <li>Real project briefs</li>
+              <li>Portfolio support</li>
+            </ul>
+            <a
+              href="https://forms.gle/bWZMqAr4nzVEfvfp9"
+              target="_blank"
+              class="plan-btn plan-btn-out"
+              >Apply →</a
+            >
+          </div>
+          <!-- Standard FEATURED -->
+          <div class="price-card hot r2">
+            <div class="price-badge">Most Popular</div>
+            <p class="plan-tag">Standard</p>
+            <h3 class="plan-name">In-Person</h3>
+            <p class="plan-desc" style="color: rgba(216, 225, 231, 0.65)">
+              All online benefits plus physical classroom sessions.
+            </p>
+            <div class="plan-price">
+              4.8M
+              <small style="font-size: 0.4em; color: rgba(216, 225, 231, 0.4)"
+                >IRR</small
+              >
+            </div>
+            <div class="plan-period">per month · 32 weeks total</div>
+            <ul class="plan-feats">
+              <li>Everything in Online</li>
+              <li>In-person sessions</li>
+              <li>Sat &amp; Wed · 7–8:30 PM</li>
+              <li>Collaborate in-class</li>
+            </ul>
+            <a
+              href="https://forms.gle/bWZMqAr4nzVEfvfp9"
+              target="_blank"
+              class="plan-btn plan-btn-hot"
+              >Apply →</a
+            >
+          </div>
+          <!-- VIP -->
+          <div class="price-card r3">
+            <p class="plan-tag">VIP + Mentoring</p>
+            <h3 class="plan-name">Full Access</h3>
+            <p class="plan-desc">
+              Personal mentor + in-person + exclusive content production camps.
+            </p>
+            <div class="plan-price">
+              5.5M
+              <small style="font-size: 0.4em; color: var(--text-lo)">IRR</small>
+            </div>
+            <div class="plan-period">per month · 32 weeks total</div>
+            <ul class="plan-feats">
+              <li>Everything in Standard</li>
+              <li>Dedicated personal mentor</li>
+              <li>Content production camps</li>
+              <li>Priority project placement</li>
+            </ul>
+            <a
+              href="https://forms.gle/bWZMqAr4nzVEfvfp9"
+              target="_blank"
+              class="plan-btn plan-btn-out"
+              >Apply →</a
+            >
+          </div>
+        </div>
+        <p class="pricing-note r">
+          Access activates immediately after payment. Cohort capped at 15–20
+          students.
+        </p>
       </div>
-      <div class="faq-item">
-        <button class="faq-q">When do I start finding real work? <span class="faq-ico">+</span></button>
-        <div class="faq-a"><div class="faq-a-inner">From the first few weeks. You're on real project briefs early, and many students start getting paid opportunities within the first couple of months of the program.</div></div>
+    </section>
+
+    <!-- SCHEDULE -->
+    <section class="schedule">
+      <div class="wrap">
+        <p class="eyebrow r">The Details</p>
+        <h2 class="sec-title r">
+          Here's exactly what<br />you're signing up for.
+        </h2>
+        <div class="sched-grid">
+          <div class="detail-list">
+            <div class="detail-row r">
+              <span class="det-ico">📅</span>
+              <div>
+                <div class="det-lbl">Schedule</div>
+                <div class="det-val">Saturdays &amp; Wednesdays</div>
+              </div>
+            </div>
+            <div class="detail-row r">
+              <span class="det-ico">🕖</span>
+              <div>
+                <div class="det-lbl">Session Time</div>
+                <div class="det-val">7:00 PM — 8:30 PM</div>
+              </div>
+            </div>
+            <div class="detail-row r">
+              <span class="det-ico">⏱️</span>
+              <div>
+                <div class="det-lbl">Duration</div>
+                <div class="det-val">32 Weeks</div>
+              </div>
+            </div>
+            <div class="detail-row r">
+              <span class="det-ico">👥</span>
+              <div>
+                <div class="det-lbl">Cohort Size</div>
+                <div class="det-val">15–20 Students Max.</div>
+              </div>
+            </div>
+            <div class="detail-row r">
+              <span class="det-ico">🏷️</span>
+              <div>
+                <div class="det-lbl">Program Type</div>
+                <div class="det-val">Content Creator Junior</div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <p class="sec-body r" style="margin-bottom: 1.5rem">
+              This bootcamp is built for three kinds of people.
+            </p>
+            <div class="who-cards">
+              <div class="who-card r">
+                <h4 class="who-title">🔥 Age 20–28 — The Starter</h4>
+                <p class="who-desc">
+                  You want freelance income and a real portfolio. You're done
+                  with theory. You're ready to work from day one.
+                </p>
+              </div>
+              <div class="who-card r2">
+                <h4 class="who-title">⚡ Age 25–35 — The Career Switcher</h4>
+                <p class="who-desc">
+                  Unhappy where you are. You want a skill that actually pays.
+                  You're ready to invest in yourself for real this time.
+                </p>
+              </div>
+              <div class="who-card r3">
+                <h4 class="who-title">🏢 Companies — Team Training</h4>
+                <p class="who-desc">
+                  Need qualified content creators? We train your team, assess
+                  their level, and build their skills from the ground up.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="faq-item">
-        <button class="faq-q">What's the difference between the plans? <span class="faq-ico">+</span></button>
-        <div class="faq-a"><div class="faq-a-inner"><strong>Online</strong> is fully remote. <strong>Standard</strong> adds live in-person classroom sessions. <strong>VIP</strong> adds a dedicated personal mentor who guides your growth plus exclusive production camps where you shoot and create in the real world.</div></div>
+    </section>
+
+    <!-- COMPANIES -->
+    <section class="companies">
+      <div class="wrap">
+        <p class="eyebrow r" style="color: rgba(216, 225, 231, 0.5)">
+          For Organizations
+        </p>
+        <h2 class="sec-title r">Looking to train<br />your team?</h2>
+        <p class="sec-body r">
+          Content City works with companies that need skilled, ready-to-work
+          content creators. Our graduates handle real client projects from week
+          one — so they're ready to deliver the moment they join you.
+        </p>
+        <a
+          href="https://forms.gle/bWZMqAr4nzVEfvfp9"
+          target="_blank"
+          class="btn-main r"
+          style="margin-top: 2.5rem; display: inline-flex"
+          >Talk to us →</a
+        >
       </div>
-      <div class="faq-item">
-        <button class="faq-q">How do I register? <span class="faq-ico">+</span></button>
-        <div class="faq-a"><div class="faq-a-inner">Click Apply, fill out the short form, and complete your payment. Your program access activates right away — no waiting.</div></div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq">
+      <div class="wrap">
+        <p class="eyebrow r">Questions</p>
+        <h2 class="sec-title r">Straight answers.</h2>
+        <div class="faq-list r">
+          <div class="faq-item">
+            <button class="faq-q">
+              Do I need prior experience? <span class="faq-ico">+</span>
+            </button>
+            <div class="faq-a">
+              <div class="faq-a-inner">
+                No. We start from zero. What matters is your drive and the time
+                you can commit. We build everything else together, from the
+                ground up.
+              </div>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q">
+              When do I start finding real work? <span class="faq-ico">+</span>
+            </button>
+            <div class="faq-a">
+              <div class="faq-a-inner">
+                From the first few weeks. You're on real project briefs early,
+                and many students start getting paid opportunities within the
+                first couple of months of the program.
+              </div>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q">
+              What's the difference between the plans?
+              <span class="faq-ico">+</span>
+            </button>
+            <div class="faq-a">
+              <div class="faq-a-inner">
+                <strong>Online</strong> is fully remote.
+                <strong>Standard</strong> adds live in-person classroom
+                sessions. <strong>VIP</strong> adds a dedicated personal mentor
+                who guides your growth plus exclusive production camps where you
+                shoot and create in the real world.
+              </div>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q">
+              How do I register? <span class="faq-ico">+</span>
+            </button>
+            <div class="faq-a">
+              <div class="faq-a-inner">
+                Click Apply, fill out the short form, and complete your payment.
+                Your program access activates right away — no waiting.
+              </div>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q">
+              Do I get a certificate? <span class="faq-ico">+</span>
+            </button>
+            <div class="faq-a">
+              <div class="faq-a-inner">
+                Yes — but the certificate is the least valuable thing you walk
+                away with. Your portfolio of completed real-world work is what
+                actually gets you hired or wins you clients. That's what we
+                focus on.
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="faq-item">
-        <button class="faq-q">Do I get a certificate? <span class="faq-ico">+</span></button>
-        <div class="faq-a"><div class="faq-a-inner">Yes — but the certificate is the least valuable thing you walk away with. Your portfolio of completed real-world work is what actually gets you hired or wins you clients. That's what we focus on.</div></div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <section class="cta-final">
+      <div class="wrap">
+        <h2 class="sec-title r">Time to build.</h2>
+        <p class="sec-body r">
+          Spots are strictly limited. Every week you wait is a week your
+          portfolio doesn't grow.
+        </p>
+        <a
+          href="https://forms.gle/bWZMqAr4nzVEfvfp9"
+          target="_blank"
+          class="btn-white r"
+          >Apply Now →</a
+        >
       </div>
-    </div>
-  </div>
-</section>
+    </section>
 
-<!-- FINAL CTA -->
-<section class="cta-final">
-  <div class="wrap">
-    <h2 class="sec-title r">Time to build.</h2>
-    <p class="sec-body r">Spots are strictly limited. Every week you wait is a week your portfolio doesn't grow.</p>
-    <a href="https://forms.gle/bWZMqAr4nzVEfvfp9" target="_blank" class="btn-white r">Apply Now →</a>
-  </div>
-</section>
+    <!-- FOOTER -->
+    <footer>
+      <div class="footer-logo">Content<em>City</em></div>
+      <div>contentcity.website</div>
+      <div>Built with ❤️ in Iran</div>
+    </footer>
 
-<!-- FOOTER -->
-<footer>
-  <div class="footer-logo">Content<em>City</em></div>
-  <div>contentcity.website</div>
-  <div>Built with ❤️ in Iran</div>
-</footer>
+    <script>
+      // ─── CURSOR GLOW ───
 
-<script>
+      const glow = document.querySelector(".cursor-glow");
 
-// ─── CURSOR GLOW ───
+      document.addEventListener("mousemove", (e) => {
+        glow.style.left = e.clientX + "px";
 
-const glow = document.querySelector('.cursor-glow');
+        glow.style.top = e.clientY + "px";
+      });
 
-document.addEventListener('mousemove', e => {
+      // ─── SCROLL REVEAL ───
+      const obs = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add("on");
+              obs.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.1 },
+      );
+      document.querySelectorAll(".r,.r2,.r3").forEach((el) => obs.observe(el));
 
-    glow.style.left = e.clientX + 'px';
+      // ─── COUNT-UP ───
+      const cobs = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (!e.isIntersecting) return;
+            const el = e.target,
+              target = +el.dataset.count;
+            let v = 0,
+              step = Math.ceil(target / 40);
+            const t = setInterval(() => {
+              v = Math.min(v + step, target);
+              el.textContent = v;
+              if (v >= target) clearInterval(t);
+            }, 40);
+            cobs.unobserve(el);
+          });
+        },
+        { threshold: 0.5 },
+      );
+      document
+        .querySelectorAll("[data-count]")
+        .forEach((el) => cobs.observe(el));
 
-    glow.style.top = e.clientY + 'px';
+      // ─── FAQ ACCORDION ───
+      document.querySelectorAll(".faq-q").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const item = btn.parentElement,
+            ans = item.querySelector(".faq-a"),
+            isOpen = item.classList.contains("open");
+          document.querySelectorAll(".faq-item").forEach((i) => {
+            i.classList.remove("open");
+            i.querySelector(".faq-a").style.maxHeight = "0";
+          });
+          if (!isOpen) {
+            item.classList.add("open");
+            ans.style.maxHeight = ans.scrollHeight + "px";
+          }
+        });
+      });
 
-});
+      // ─── PROGRESS BAR ───
+      gsap.registerPlugin(ScrollTrigger);
 
-// ─── SCROLL REVEAL ───
-const obs=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');obs.unobserve(e.target)}})
-},{threshold:.1});
-document.querySelectorAll('.r,.r2,.r3').forEach(el=>obs.observe(el));
+      const lenis = new Lenis();
 
-// ─── COUNT-UP ───
-const cobs=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{
-    if(!e.isIntersecting)return;
-    const el=e.target,target=+el.dataset.count;
-    let v=0,step=Math.ceil(target/40);
-    const t=setInterval(()=>{v=Math.min(v+step,target);el.textContent=v;if(v>=target)clearInterval(t)},40);
-    cobs.unobserve(el);
-  });
-},{threshold:.5});
-document.querySelectorAll('[data-count]').forEach(el=>cobs.observe(el));
+      function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+      }
 
-// ─── FAQ ACCORDION ───
-document.querySelectorAll('.faq-q').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    const item=btn.parentElement,ans=item.querySelector('.faq-a'),isOpen=item.classList.contains('open');
-    document.querySelectorAll('.faq-item').forEach(i=>{i.classList.remove('open');i.querySelector('.faq-a').style.maxHeight='0'});
-    if(!isOpen){item.classList.add('open');ans.style.maxHeight=ans.scrollHeight+'px'}
-  });
-});
-</script>
-</body>
+      requestAnimationFrame(raf);
+
+      gsap.from(".hero-h1 span", {
+        yPercent: 120,
+        opacity: 0,
+        stagger: 0.15,
+        duration: 1.2,
+        ease: "power4.out",
+      });
+
+      gsap.to(".hero-blob1", {
+        y: 250,
+        scrollTrigger: {
+          trigger: ".hero",
+          scrub: true,
+        },
+      });
+
+      gsap.to(".hero-blob2", {
+        y: -180,
+        scrollTrigger: {
+          trigger: ".hero",
+          scrub: true,
+        },
+      });
+
+      gsap.to(".progress-bar", {
+        scaleX: 1,
+        ease: "none",
+        scrollTrigger: {
+          scrub: true,
+        },
+      });
+    </script>
+  </body>
 </html>
