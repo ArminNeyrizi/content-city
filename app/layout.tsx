@@ -3,10 +3,6 @@ import localFont from "next/font/local";
 
 import "./globals.css";
 
-import Header from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer";
-
-
 const kalameh = localFont({
   src: [
     {
@@ -21,35 +17,27 @@ const kalameh = localFont({
   variable: "--font-kalameh",
 });
 
-
 export const metadata: Metadata = {
-  title: "آموزشگاه کامپیوتر مهدوی نژاد",
+  title: {
+    default: "آموزشگاه کامپیوتر مهدوی نژاد",
+    template: "%s | مهدوی نژاد",
+  },
   description:
-    "آموزش مهارت‌های دیجیتال، برنامه نویسی، طراحی سایت، گرافیک و حسابداری",
+    "آموزش مهارت‌های دیجیتال، برنامه‌نویسی، طراحی سایت، گرافیک و حسابداری",
 };
-
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
   return (
     <html lang="fa" dir="rtl">
+      <body className={`${kalameh.variable} font-kalameh antialiased`}>
 
-      <body className={`${kalameh.variable} antialiased`}>
-
-        <Header />
-
-        <main className="pt-20">
-          {children }
-        </main>
-
-        <Footer />
+        <main>{children}</main>
 
       </body>
-
     </html>
   );
 }
