@@ -19,11 +19,19 @@ const kalameh = localFont({
 
 export const metadata: Metadata = {
   title: {
-    default: "آموزشگاه کامپیوتر مهدوی نژاد",
-    template: "%s | مهدوی نژاد",
+    default: "Content City | آژانس تولید محتوای دیجیتال",
+    template: "%s | Content City",
   },
   description:
-    "آموزش مهارت‌های دیجیتال، برنامه‌نویسی، طراحی سایت، گرافیک و حسابداری",
+    "Content City آژانس خلاقیت و تولید محتوای دیجیتال؛ از استراتژی و ایده تا تولید و انتشار.",
+  keywords: [
+    "Content City",
+    "تولید محتوا",
+    "آژانس تولید محتوا",
+    "استراتژی محتوا",
+    "تولید ویدیو",
+    "سوشال مدیا",
+  ],
 };
 
 export default function RootLayout({
@@ -33,10 +41,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fa" dir="rtl">
-      <body className={`${kalameh.variable} font-kalameh antialiased`}>
-
-        <main>{children}</main>
-
+      <body
+        className={`${kalameh.variable} font-kalameh antialiased`}
+      >
+        {children}
       </body>
     </html>
   );
